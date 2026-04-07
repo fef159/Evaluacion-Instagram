@@ -10,13 +10,15 @@ FROM python:3.11-alpine
 
 WORKDIR /app
 
+# Copiar dependencias
 COPY --from=builder /usr/local/lib/python3.11 /usr/local/lib/python3.11
 COPY app.py .
 
-RUN adduser -D appuser
-USER appuser
+# Crear usuario y carpeta con permisos
+RUN adduser -D appuser && mkdir downloads && chown -R appuser /app
 
-RUN mkdir downloads
+# Cambiar a usuario seguro
+USER appuser
 
 EXPOSE 5000
 
